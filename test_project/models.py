@@ -14,6 +14,6 @@ class Measurement(models.Model):
     date = models.DateField()
     time = models.TimeField()
     weight = models.DecimalField()
-    user = models.ForeignKey(Participant, on_delete=None)
+    user = models.ForeignKey(Participant, on_delete=models.CASCADE)
 
-    def __str__(self): return self.date
+    def __str__(self): return self.user
