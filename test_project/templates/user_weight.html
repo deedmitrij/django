@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user{}.format("'s") }} weight{% endblock %}
+
+{% block content %}
+<h1>{{ user{}.format("'s") }} weight</h1>
+Date: {{ date }}
+Weight: {{ weight }}
+
+{% for twit in twits_list %}
+    <p>{{ twit.headline }}</p>
+    <p>By {{ twit.reporter.full_name }}</p>
+    <p>Published {{ twit.pub_date|date:"F j, Y" }}</p>
+{% endfor %}
+{% endblock %}
