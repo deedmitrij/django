@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}{{ user{}.format("'s") }} weight{% endblock %}
+{% block title %}{{ user{}.format("s") }} weight{% endblock %}
 
 {% block content %}
-<h1>{{ user{}.format("'s") }} weight</h1>
+<h1>{{ user{}.format("s") }} weight</h1>
 Date: {{ date }}
 Weight: {{ weight }}
 
