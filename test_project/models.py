@@ -13,7 +13,7 @@ class Participant(models.Model):
 class Measurement(models.Model):
     date = models.DateField()
     time = models.TimeField()
-    weight = models.DecimalField()
+    weight = models.DecimalField(max_digits=5, decimal_places=2)
     user = models.ForeignKey(Participant, on_delete=models.CASCADE)
 
     def __str__(self): return self.user
