@@ -3,13 +3,15 @@
 {% block title %}Find out your BMI{% endblock %}
 
 {% block content %}
-<h1>{{ user{}.format("s") }} weight</h1>
-Date: {{ date }}
-Weight: {{ weight }}
 
-{% for twit in twits_list %}
-    <p>{{ twit.headline }}</p>
-    <p>By {{ twit.reporter.full_name }}</p>
-    <p>Published {{ twit.pub_date|date:"F j, Y" }}</p>
-{% endfor %}
 {% endblock %}
+
+<script defer>
+        Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+
+        Vue.http.interceptors.push((request, next) => {
+          request.headers.set('Authorization', 'Token {{ request.user.auth_token.key }}');
+          request.headers.set('Accept', 'application/json');
+          next()
+        });
+</script>
