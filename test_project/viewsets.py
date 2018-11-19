@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 
 class EmployeeViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
-    queryset = Participant.objects.all()
+    queryset = Participant.objects.all().order_by("id")
     serializer_class = ParticipantSerializer

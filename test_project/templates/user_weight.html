@@ -3,7 +3,28 @@
 {% block title %}Find out your BMI{% endblock %}
 
 {% block content %}
-
+    <!-- NAVIGATION -->
+    <nav class="navbar navbar-expand navbar-light bg-light" style="">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">List of employees</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav pull-right">
+                <li class="nav-item disabled pull-right">
+                    <a class="nav-link disabled">Logged  in as: {{ request.user.username }}</a>
+                </li>
+            </ul>
+            <a href="{% url 'logout' %}" class="btn btn-info">Logout</a>
+        </div>
+    </nav>
 {% endblock %}
 
 <script defer>

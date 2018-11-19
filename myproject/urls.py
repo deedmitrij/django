@@ -22,12 +22,10 @@ from django.views.generic import TemplateView
 
 
 urlpatterns = [
-    path('', include('test_project.urls')),
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('api-token-auth/', views.obtain_auth_token),
     path('accounts/', include('django.contrib.auth.urls')),
-
     path('', login_required(TemplateView.as_view(template_name='user_weight.html'))),
 ]
 # from django.conf.urls import include, url
