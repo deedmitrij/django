@@ -6,4 +6,5 @@ from . import views
 urlpatterns = [
     # path('', admin.site.urls),
     path('', views.measurement, name='index'),
+    path('signup/', views.signup, name='signup'),
 ]

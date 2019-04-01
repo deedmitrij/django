@@ -7,7 +7,7 @@ class Participant(models.Model):
     name = models.CharField(max_length=70)
     email = models.EmailField()
 
-    def __str__(self): return self.name
+    def __str__(self): return f'{self.name}'
 
 
 class Measurement(models.Model):
@@ -16,7 +16,7 @@ class Measurement(models.Model):
     weight = models.DecimalField(max_digits=5, decimal_places=2)
     user = models.ForeignKey(Participant, on_delete=models.CASCADE)
 
-    def __str__(self): return self.user
+    def __str__(self): return f'Weight: {self.weight}, user: {self.user}'
 
 
 # Auto-creating tokens for all users
