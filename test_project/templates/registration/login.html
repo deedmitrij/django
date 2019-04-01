@@ -135,9 +135,11 @@
                 </div>
                 <div class="card-sign">
                     <h4 style="color: white; display: inline; float: left; margin-left: 20px; margin-top: 15px">Sign in:</h4>
-                     <button class="register" data-toggle="modal" data-target="#regUserForm" style="margin-right: 20px; margin-top: 20px">Not registered?
+                    <a href="{% url 'signup' %}">
+                        <button class="register" style="margin-right: 20px; margin-top: 20px">Not registered?
                          <!--<h4 style="color: red; display: inline; float: right; margin-right: 20px; margin-top: 15px">Not registered?</h4>-->
-                     </button>
+                        </button>
+                    </a>
                 </div>
                 <div class="card-body">
                     <form method="post" action="{% url 'login' %}">{% csrf_token %}
@@ -173,21 +175,9 @@
             <button type="button" class="cancel" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form v-on:submit.prevent="addUser()">
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="user_name">Name</label>
-                    <input type="text" class="form-control" id="user_name" placeholder="Enter Your Name" v-model="regUser.name" required="required" >
-                </div>
-                <div class="form-group">
-                    <label for="user_email">Email</label>
-                    <input class="form-control" id="user_email" placeholder="Enter Your Email" v-model="regUser.email" required="required" >
-                </div>
-                <div class="form-group">
-                    <label for="user_pass">Password</label>
-                    <input class="form-control" id="user_pass" placeholder="Enter Your Password" v-model="regUser.password" required="required" >
-                </div>
-            </div>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button type="submit" class="btn btn-primary">Register</button>
@@ -225,12 +215,11 @@
           el: "#app",
           delimiters: ["${", "}"],
           data: {
-            users = [],
+            users: [],
             loading: false,
             regUser: {
               name: "",
               email: "",
-              password: "",
             }
           },
           methods: {

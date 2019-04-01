@@ -1,0 +1,30 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+    <link href="https://fonts.googleapis.com/css?family=Peralta" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+
+    <script>
+        function disableFunction() {
+            $('#btn_submit').prop('disabled', true);
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h2>Sign up</h2>
+    {% if not message %}
+    <form action="" method="post">{% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" id="btn_submit" class="btn btn-primary">Create an account</button>
+    </form>
+    {% else %}
+    {{ message }}
+    {% endif %}
+</div>
+</body>
+</html>
