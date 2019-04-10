@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Profile of {{ request.user.username }}{% endblock %}
+
+{% block content %}
+    <!-- Left Navbar -->
+    <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:25%">
+      <h3 class="w3-bar-item">Menu</h3>
+      <a href="#" class="w3-bar-item w3-button">Information</a>
+      <a href="#" class="w3-bar-item w3-button">Change password</a>
+      <a href="{% url 'logout' %}" class="w3-bar-item w3-button">Logout</a>
+    </div>
+
+    <!-- Page Content -->
+    <div style="margin-left:25%">
+
+    <div class="w3-container w3-teal">
+      <h3>User profile</h3>
+    </div>
+
+    <!--<img src="img_car.jpg" alt="Car" style="width:100%">-->
+
+    <!--<div class="w3-container">-->
+    <!--<h2>Sidebar Navigation Example</h2>-->
+    <!--<p>The sidebar with is set with "style="width:25%".</p>-->
+    <!--<p>The left margin of the page content is set to the same value.</p>-->
+    <!--</div>-->
+    <form action="" method="post">{% csrf_token %}
+        {{ form.as_p }}
+    <button type="submit" id="btn_submit" class="btn btn-primary">Update information</button>
+    </form>
+    </div>
+{% endblock %}
+
+<script defer>
+        Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
+
+        Vue.http.interceptors.push((request, next) => {
+          request.headers.set('Authorization', 'Token {{ request.user.auth_token.key }}');
+          request.headers.set('Accept', 'application/json');
+          next()
+        });
+</script>

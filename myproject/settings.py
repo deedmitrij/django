@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# SESSION_COOKIE_AGE = 60
+
+# AUTH_USER_MODEL = 'core.User'
 
 # Application definition
 

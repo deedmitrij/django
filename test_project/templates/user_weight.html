@@ -3,28 +3,44 @@
 {% block title %}Find out your BMI{% endblock %}
 
 {% block content %}
-    <!-- NAVIGATION -->
-    <nav class="navbar navbar-expand navbar-light bg-light" style="">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/">List of employees</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav pull-right">
-                <li class="nav-item disabled pull-right">
-                    <a class="nav-link disabled">Logged  in as: {{ request.user.username }}</a>
-                </li>
-            </ul>
-            <a href="{% url 'logout' %}" class="btn btn-info">Logout</a>
-        </div>
-    </nav>
+<div class="col" style="margin-top: 15px">
+    <h4>TOP-5 users with the best BMI</h4>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Height</th>
+      <th scope="col">Weight</th>
+      <th scope="col">BMI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
 {% endblock %}
 
 <script defer>
