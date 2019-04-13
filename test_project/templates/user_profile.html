@@ -4,31 +4,174 @@
 
 {% block content %}
     <!-- Left Navbar -->
-    <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:25%">
-      <h3 class="w3-bar-item">Menu</h3>
-      <a href="#" class="w3-bar-item w3-button">Information</a>
-      <a href="#" class="w3-bar-item w3-button">Change password</a>
-      <a href="{% url 'logout' %}" class="w3-bar-item w3-button">Logout</a>
-    </div>
+{#    <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:25%">#}
+{#      <h3 class="w3-bar-item">Menu</h3>#}
+{#      <a href="#" class="w3-bar-item w3-button active">Information</a>#}
+{#      <a href="#" class="w3-bar-item w3-button">Change password</a>#}
+{#    </div>#}
 
-    <!-- Page Content -->
-    <div style="margin-left:25%">
+    <div class="row">
+        <div class="col-3">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Information</a>
+                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Change password</a>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="w3-container w3-teal">
+                <h3>User profile</h3>
+            </div>
+            <div class="tab-content" id="v-pills-tabContent">
 
-    <div class="w3-container w3-teal">
-      <h3>User profile</h3>
-    </div>
 
-    <!--<img src="img_car.jpg" alt="Car" style="width:100%">-->
+                <!-- Page Content -->
+{#    <div style="margin-left:23.5%">#}
 
-    <!--<div class="w3-container">-->
-    <!--<h2>Sidebar Navigation Example</h2>-->
-    <!--<p>The sidebar with is set with "style="width:25%".</p>-->
-    <!--<p>The left margin of the page content is set to the same value.</p>-->
-    <!--</div>-->
-    <form action="" method="post">{% csrf_token %}
-        {{ form.as_p }}
-    <button type="submit" id="btn_submit" class="btn btn-primary">Update information</button>
-    </form>
+
+
+        <!--<img src="img_car.jpg" alt="Car" style="width:100%">-->
+
+        <!--<div class="w3-container">-->
+        <!--<h2>Sidebar Navigation Example</h2>-->
+        <!--<p>The sidebar with is set with "style="width:25%".</p>-->
+        <!--<p>The left margin of the page content is set to the same value.</p>-->
+        <!--</div>-->
+
+
+{#    </div>#}
+
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+{#                    <form action="" method="post">{% csrf_token %}#}
+{#                {{ form.as_p }}#}
+{#            <button type="submit" id="btn_submit" class="btn btn-primary">Update information</button>#}
+{#            </form>#}
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form action="" method="post">{% csrf_token %}
+                                  <div class="form-group row">
+                                    <label for="name" class="col-4 col-form-label">First Name</label>
+                                    <div class="col-8">
+                                      <input id="name" name="name" placeholder="First Name" class="form-control here" type="text">
+                                    </div>
+                                  </div>
+                                  <div class="form-group row">
+                                    <label for="lastname" class="col-4 col-form-label">Last Name</label>
+                                    <div class="col-8">
+                                      <input id="lastname" name="lastname" placeholder="Last Name" class="form-control here" type="text">
+                                    </div>
+                                  </div>
+                                  <div class="form-group row">
+                                    <label for="text" class="col-4 col-form-label">Nickname</label>
+                                    <div class="col-8">
+                                      <input id="text" name="text" placeholder="Nickname" class="form-control here" required="required" type="text">
+                                    </div>
+                                  </div>
+                                  <div class="form-group row">
+                                    <label for="email" class="col-4 col-form-label">Email</label>
+                                    <div class="col-8">
+                                      <input id="email" name="email" placeholder="Email" class="form-control here" required="required" type="text">
+                                    </div>
+                                  </div>
+                                  <div class="form-group row">
+                                    <label for="publicinfo" class="col-4 col-form-label">Public Info</label>
+                                    <div class="col-8">
+                                      <textarea id="publicinfo" name="publicinfo" cols="40" rows="4" class="form-control"></textarea>
+                                    </div>
+                                  </div>
+                                  <div class="form-group row">
+                                    <div class="offset-4 col-8">
+                                      <button name="submit" type="submit" class="btn btn-primary">Update My Profile</button>
+                                    </div>
+                                  </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+		        </div>
+
+                </div>
+                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+{#                    <div class="modal-header">#}
+{#        <h3>Change Password <span class="extra-title muted"></span></h3>#}
+{#    </div>#}
+{#    <div class="modal-body form-horizontal">#}
+{#        <div class="control-group">#}
+{#            <label for="current_password" class="control-label">Current Password</label>#}
+{#            <div class="controls">#}
+{#                <input type="password" name="current_password">#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="control-group">#}
+{#            <label for="new_password" class="control-label">New Password</label>#}
+{#            <div class="controls">#}
+{#                <input type="password" name="new_password">#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="control-group">#}
+{#            <label for="confirm_password" class="control-label">Confirm Password</label>#}
+{#            <div class="controls">#}
+{#                <input type="password" name="confirm_password">#}
+{#            </div>#}
+{#        </div>      #}
+{#    </div>#}
+{#    <div class="modal-footer">#}
+{#        <button href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>#}
+{#        <button href="#" class="btn btn-primary" id="password_modal_save">Save changes</button>#}
+{#    </div>#}
+
+                    <form class="form-horizontal">
+
+
+<!-- Form Name -->
+<legend>Ændr adgangskode</legend>
+
+<!-- Password input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="piCurrPass">Nuværende kode</label>
+  <div class="col-md-4">
+    <input id="piCurrPass" name="piCurrPass" type="password" placeholder="" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Password input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="piNewPass">Ny adgangskode</label>
+  <div class="col-md-4">
+    <input id="piNewPass" name="piNewPass" type="password" placeholder="" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Password input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="piNewPassRepeat">Gentag koden</label>
+  <div class="col-md-4">
+    <input id="piNewPassRepeat" name="piNewPassRepeat" type="password" placeholder="" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Button (Double) -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="bCancel"></label>
+  <div class="col-md-8">
+    <button id="bCancel" name="bCancel" class="btn btn-danger">Afbryd</button>
+    <button id="bGodkend" name="bGodkend" class="btn btn-success">Godkend</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+
+
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
