@@ -22,9 +22,9 @@ class UserProfileForm(UserForm):
         exclude = ['password']
 
 
-class UserChangePassForm(forms.ModelForm):
-    old_pass = forms.PasswordInput()
-    new_pass = forms.PasswordInput()
-    repeat_pass = forms.PasswordInput()
-    class Meta:
-        fields = ('old_pass', 'new_pass', 'repeat_pass')
+class UserChangePassForm(forms.Form):
+    old_pass = forms.CharField(label='Current password', widget=forms.PasswordInput)
+    new_pass = forms.CharField(label='New password', widget=forms.PasswordInput)
+    repeat_pass = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
+    # class Meta:
+    #     fields = ('old_pass', 'new_pass', 'repeat_pass')

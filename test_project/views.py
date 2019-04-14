@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
-from .forms import UserForm, RecoveryForm, UserProfileForm
+from .forms import UserForm, RecoveryForm, UserProfileForm, UserChangePassForm
 from django.shortcuts import render
 import time
 
@@ -35,10 +35,17 @@ def measurement(request):
 def user_profile(request):
     user = User.objects.get(username=request.user.username)
     data = user.__dict__
-    form = UserProfileForm(initial=data) if request.method == 'GET' else UserProfileForm(request.POST, instance=user)
-    if request.method == 'POST' and form.is_valid():
-        user.username = form.cleaned_data['username']
+    info_form = UserProfileForm(initial=data) if request.method == 'GET' else UserProfileForm(request.POST, instance=user)
+    pass_form = UserChangePassForm(request.POST or None)
+    if request.method == 'POST' and info_form.is_valid():
+        user.username = info_form.cleaned_data['username']
         user.save()
+    elif request.method == 'POST' and pass_form.is_valid():
+        if user.check_password(pass_form['old_pass'].data):
+            if pass_form['new_pass'].data == pass_form['repeat_pass'].data:
+                user.set_password(pass_form['new_pass'].data)
+                user.save()
+                return HttpResponse("OK")
     return render(request, 'user_profile.html', locals())
 
 # from django.http import HttpResponse
