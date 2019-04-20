@@ -5,22 +5,29 @@ from django.shortcuts import render
 import time
 
 
-
 def signup(request):
-    form = UserForm(request.POST or None)
-    # request.is_ajax()
-    if request.method == 'POST' and form.is_valid():
-        data = form.cleaned_data
-        user = User.objects.create_user(username=data['username'], email=data['email'], password=data['password'],
-                                        first_name=data['first_name'], last_name=data['last_name'])
-        message = 'Your data has been accepted. Wait while redirected to the login page...'
-        time.sleep(3)
+    # form = UserForm(request.POST or None)
+    if request.method == 'GET':
         return HttpResponseRedirect('/')
-
-    if request.is_ajax():
-        return HttpResponse("OK")
+    # elif request.method == 'POST' and form.is_valid():
+    elif request.method == 'POST' and request.is_ajax():
+        # data = form.cleaned_data
+        if User.objects.filter(username=request.POST['username']).exists():
+            return HttpResponse("username is exist")
+        elif User.objects.filter(email=request.POST['email']).exists():
+            return HttpResponse("email is exist")
+        else:
+            User.objects.create_user(username=request.POST['username'], email=request.POST['email'],
+                                     password=request.POST['password'], first_name=request.POST['first_name'],
+                                     last_name=request.POST['last_name'])
+    #     message = 'Your data has been accepted. Wait while redirected to the login page...'
+    #     time.sleep(3)
+    #     return HttpResponseRedirect('/')
+            return HttpResponse("OK")
+    # else:
+    #     return render(request, 'registration/signup.html', locals())
     else:
-        return render(request, 'registration/signup.html', locals())
+        return HttpResponse("Non-valid request")
 
 
 def pass_recovery(request):
@@ -39,13 +46,17 @@ def user_profile(request):
     pass_form = UserChangePassForm(request.POST or None)
     if request.method == 'POST' and info_form.is_valid():
         user.username = info_form.cleaned_data['username']
+        user.first_name = info_form.cleaned_data['first_name']
+        user.last_name = info_form.cleaned_data['last_name']
+        user.email = info_form.cleaned_data['email']
         user.save()
-    elif request.method == 'POST' and pass_form.is_valid():
-        if user.check_password(pass_form['old_pass'].data):
-            if pass_form['new_pass'].data == pass_form['repeat_pass'].data:
-                user.set_password(pass_form['new_pass'].data)
-                user.save()
-                return HttpResponse("OK")
+    elif request.method == 'POST' and request.is_ajax():
+        if user.check_password(request.POST['old_pass']):
+            user.set_password(request.POST['new_pass'])
+            user.save()
+            return HttpResponse("OK")
+        else:
+            return HttpResponse("Incorrect password")
     return render(request, 'user_profile.html', locals())
 
 # from django.http import HttpResponse

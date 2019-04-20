@@ -10,6 +10,24 @@
 {#      <a href="#" class="w3-bar-item w3-button">Change password</a>#}
 {#    </div>#}
 
+<!-- Modal PassChange starts -->
+  <div class="modal fade" id="PassChangeModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header" style="background: #89be74">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Change Password</h4>
+        </div>
+        <div class="modal-body" id="change-pass-message-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Modal PassChange ends -->
+
     <div class="row">
         <div class="col-3">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -114,21 +132,30 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <form action="" method="post">{% csrf_token %}
-                                    {% for form in pass_form %}
-                                        <div class="form-group row">
-                                            <label for="{{ form.id_for_label }}" class="col-4 col-form-label">{{ form.label }}</label>
-                                            <div class="col-8">
-                                                {{ form }}
-                                            </div>
-                                        </div>
-                                    {% endfor %}
+                                {% csrf_token %}
                                     <div class="form-group row">
-                                        <div class="offset-4 col-8">
-                                        <button name="submit" type="submit" class="btn btn-primary">Update Password</button>
+                                        <label for="id_old_pass" class="col-4 col-form-label">Current password</label>
+                                        <div class="col-8">
+                                            <input type="password" class="form-control" name="old_pass" id="id_old_pass">
                                         </div>
                                     </div>
-                                </form>
+                                    <div class="form-group row">
+                                        <label for="id_new_pass" class="col-4 col-form-label">New password</label>
+                                        <div class="col-8">
+                                            <input type="password" class="form-control" name="new_pass" id="id_new_pass">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="id_repeat_pass" class="col-4 col-form-label">Confirm password</label>
+                                        <div class="col-8">
+                                            <input type="password" class="form-control" name="repeat_pass" id="id_repeat_pass">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-4 col-8">
+                                        <button name="submit" type="submit" class="btn btn-primary" onclick="change_pass()">Update Password</button>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
 
@@ -140,14 +167,58 @@
             </div>
         </div>
     </div>
+
+
+    <script defer>
+        change_pass = function () {
+            let old_pass = $("#id_old_pass").val();
+            let new_pass = $("#id_new_pass").val();
+            let repeat_pass = $("#id_repeat_pass").val();
+
+            if ((old_pass === "") || (old_pass.length < 6)) {
+                document.getElementById('id_old_pass').style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById('id_old_pass').style.borderColor = "green";
+            }
+
+            if ((new_pass === "") || (old_pass.length < 6)) {
+                document.getElementById('id_new_pass').style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById('id_new_pass').style.borderColor = "green";
+            }
+
+            if ((repeat_pass === "") || (repeat_pass !== new_pass)) {
+                document.getElementById('id_repeat_pass').style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById('id_repeat_pass').style.borderColor = "green";
+            }
+
+            let data = {
+                old_pass: old_pass,
+                new_pass: new_pass
+            };
+
+            $.post( "{% url 'user_profile' %}", data)
+                .done(function( data ) {
+                    if (data === "OK") {
+                        document.getElementById('change-pass-message-body').innerHTML = 'Your password has been changed successfully';
+                        $('#PassChangeModal').modal('show')
+                    }
+                    else if (data === "Incorrect password") {
+                        document.getElementById('change-pass-message-body').innerHTML = 'Your current password is incorrect';
+                        $('#PassChangeModal').modal('show')
+                    }
+                    else {
+                        alert("Unrecognized error");
+                    }
+                });
+        }
+    </script>
+
 {% endblock %}
-
-<script defer>
-        Vue.http.headers.common['X-CSRFToken'] = "{{ csrf_token }}";
-
-        Vue.http.interceptors.push((request, next) => {
-          request.headers.set('Authorization', 'Token {{ request.user.auth_token.key }}');
-          request.headers.set('Accept', 'application/json');
-          next()
-        });
-</script>

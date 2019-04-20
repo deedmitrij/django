@@ -160,6 +160,63 @@
             padding-top: 70px;
         }
 
+        /*--thank you pop starts here--*/
+        .thank-you-pop{
+        	width:100%;
+         	padding:20px;
+        	text-align:center;
+        }
+        .thank-you-pop img{
+        	width:76px;
+        	height:auto;
+        	margin:0 auto;
+        	display:block;
+        	margin-bottom:25px;
+        }
+
+        .thank-you-pop h1{
+        	font-size: 42px;
+            margin-bottom: 25px;
+        	color:#5C5C5C;
+        }
+        .thank-you-pop p{
+        	font-size: 20px;
+            margin-bottom: 27px;
+         	color:#5C5C5C;
+        }
+        .thank-you-pop h3.cupon-pop{
+        	font-size: 25px;
+            margin-bottom: 40px;
+        	color:#222;
+        	display:inline-block;
+        	text-align:center;
+        	padding:10px 20px;
+        	border:2px dashed #222;
+        	clear:both;
+        	font-weight:normal;
+        }
+        .thank-you-pop h3.cupon-pop span{
+        	color:#03A9F4;
+        }
+        .thank-you-pop a{
+        	display: inline-block;
+            margin: 0 auto;
+            padding: 9px 20px;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 14px;
+            background-color: #8BC34A;
+            border-radius: 17px;
+        }
+        .thank-you-pop a i{
+        	margin-right:5px;
+        	color:#fff;
+        }
+        #ignismyModal .modal-header{
+            border:0px;
+        }
+        /*--thank you pop ends here--*/
+
     </style>
 
   </head>
@@ -259,29 +316,24 @@
     </div>
     <!-- End of add emp modal -->
 
-    <!-- Add Registration Form -->
-    <div class="modal fade" id="userRegistered" tabindex="-1" role="dialog" aria-labelledby="regUserFormlTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <!--Modal Registration success starts-->
+    <div class="modal fade" id="RegSuccessModal" role="dialog">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="regUserFormlTitle">User registered!!!!</h5>
-                    <button type="button" class="cancel" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label=""><span>×</span></button>
                 </div>
-
-                <div class="modal-content">
-                    User was successdully registered! You can login now...
+                <div class="modal-body">
+                    <div class="thank-you-pop">
+                        <img src="http://goactionstations.co.uk/wp-content/uploads/2017/03/Green-Round-Tick.png" alt="">
+                        <h1>Thank You!</h1>
+                        <p>Your registration form is submitted. Please, sign in using your nickname and password</p>
+                    </div>
                 </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
-                </div>
-
             </div>
         </div>
-        <div class="loading" v-if="loading===true">Loading...</div>
     </div>
-    <!-- End of add emp modal -->
+    <!--Modal Registration success ends-->
 
     <!-- Add Recovery Password Form -->
     <div class="modal fade" id="PassRecoveryModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -328,11 +380,66 @@
 
     <script defer>
         signup = function () {
-            let firstname = $("#signup_firstname").val()
-            let lastname = $("#signup_lastname").val()
-            let username = $("#signup_username").val()
-            let email = $("#signup_email").val()
-            let password = $("#signup_password").val()
+            let firstname = $("#signup_firstname").val();
+            let lastname = $("#signup_lastname").val();
+            let username = $("#signup_username").val();
+            let email = $("#signup_email").val();
+            let password = $("#signup_password").val();
+            let confirm_password = $("#signup_confirm_password").val();
+
+            if (firstname === "") {
+                document.getElementById('signup_firstname').style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById('signup_firstname').style.borderColor = "green";
+            }
+
+            if (lastname === "") {
+                document.getElementById('signup_lastname').style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById('signup_lastname').style.borderColor = "green";
+            }
+
+            if (username === "") {
+                document.getElementById('signup_username').style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById('signup_username').style.borderColor = "green";
+            }
+
+            if (email === "") {
+                document.getElementById('signup_email').style.borderColor = "red";
+                return false;
+            }
+            else {
+                if (email.match(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+[^<>()\.,;:\s@\"]{2,})$/)) {
+                    document.getElementById('signup_email').style.borderColor = "green";
+                }
+                else {
+                    document.getElementById('signup_email').style.borderColor = "red";
+                    return false
+                }
+            }
+
+            if ((password === "") || (password.length < 6)) {
+                document.getElementById('signup_password').style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById('signup_password').style.borderColor = "green";
+            }
+
+            if ((confirm_password === "") || (confirm_password !== password)) {
+                document.getElementById('signup_confirm_password').style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById('signup_confirm_password').style.borderColor = "green";
+            }
 
             let data = {
                 first_name: firstname,
@@ -343,18 +450,26 @@
                 csrfmiddlewaretoken: "{{ csrf_token }}"
             }
 
-            console.log("Sending data:", data)
+            console.log("Sending data:", data);
 
-           $.post( "{% url 'signup' %}", data)
-              .done(function( data ) {
-                  if (data === "OK") {
-                      $('#regUserForm').modal('hide')
-                      <!--alert( "User registered: " + data );-->
-                      $('#userRegistered').modal('show')
-                  }
-
-
-              });
+            $.post( "{% url 'signup' %}", data)
+                .done(function( data ) {
+                     if (data === "OK") {
+                         $('#regUserForm').modal('hide');
+                         $('#RegSuccessModal').modal('show')
+                     }
+                     else if (data === "username is exist") {
+                         alert("Please, change your nickname. Such user name is already exist");
+                         document.getElementById('signup_username').style.borderColor = "red";
+                     }
+                     else if (data === "email is exist") {
+                         alert("Such email is already registered. Please, sign in or recover your password in case you forgot it");
+                         document.getElementById('email').style.borderColor = "red";
+                     }
+                     else {
+                         alert("Unrecognized error");
+                     }
+                });
         }
     </script>
 
