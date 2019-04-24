@@ -5,18 +5,15 @@ from .serializers import ParticipantSerializer, MeasurementSerializer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.db.models import Prefetch
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
-    queryset = User.objects.all().order_by("id")
+    queryset = Participant.objects.prefetch_related(Prefetch('measurements', queryset=Measurement.objects.order_by('-date')))
     serializer_class = ParticipantSerializer
-    #
-    # def list(self, request, *args, **kwargs):
-    #
-    #     return Response('test1') if any([args, kwargs]) else Response({'say': 'test2'})
 
 
 class MeasurementViewSet(viewsets.ModelViewSet):

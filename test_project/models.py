@@ -12,18 +12,18 @@ from django.contrib.auth.models import User
 class Participant(models.Model):
     name = models.CharField(max_length=70)
     email = models.EmailField()
+    weight = models.DecimalField(max_digits=5, decimal_places=2, null=True)
 
     def __str__(self): return f'{self.name}'
 
 
 class Measurement(models.Model):
-    date = models.DateField()
-    time = models.TimeField()
+    date = models.DateTimeField(null=False, default=0)
     weight = models.DecimalField(max_digits=5, decimal_places=2)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey('Participant', related_name='measurements', on_delete=models.CASCADE, null=True, blank=True)
 
-    def __str__(self): return f'Weight: {self.weight}, user: {self.user}'
-
+    # def __str__(self): return f'Weight: {self.weight}, user: {self.user}'
+    def __str__(self): return f'Weight: {self.weight}'
 
 # Auto-creating tokens for all users
 
